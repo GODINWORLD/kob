@@ -9,12 +9,12 @@ const routes = [
   {
     path:"/",
     name:"home",
-    redirect:"/pk/"
+    redirect:"/pk/" //重定向到pk
   },
   {
     path: "/pk/",
     name: "pk_index",
-    component: PkIndexView,
+    component: PkIndexView, //表示该路由对应的组件
   },
   {
     path: "/record/",
@@ -48,4 +48,4 @@ const router = createRouter({
   routes
 })
 
-export default router
+export default router //将router实例导出，以便在其他组件中使用

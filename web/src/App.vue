@@ -17,7 +17,7 @@ export default{//全部在用户浏览器里执行的
 
 <style>
 body{
-  background-image: url("@/assets/images/backgroud.png");
+  background-image: url("@/assets/images/backgroud.png");/* @是根目录，即src*/
   background-size: cover;
 }
 </style>

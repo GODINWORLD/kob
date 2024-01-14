@@ -19,11 +19,10 @@ export class Wall extends AcGameObject{
         const ctx = this.gamemap.ctx;
 
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.c * L, this.r * L, L, L);//不需要写this
-        //canvas的x,y是笛卡尔坐标的，其他地方操作时按照正常的数组操作，到这里填充时再
-        //反着来即可
-        
+        ctx.fillRect(this.c * L, this.r * L, L, L);
     }
-
-
 }
+
+//不需要写this
+//canvas的x,y是笛卡尔坐标的，其他地方操作时按照正常的数组操作，到这里填充时再
+//反着来即可

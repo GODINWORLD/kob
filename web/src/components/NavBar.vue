@@ -7,6 +7,8 @@
               <li class="nav-item">
                 <router-link :class="route_name == 'pk_index' ? 'nav-link active' : 'nav-link'" :to="{name: 'pk_index'}">对战</router-link>
               </li>
+              <!-- router-link 组件来定义页面链接，to 属性指定了链接的目标路由， :是v-bind:的省略写法-->
+
               <li class="nav-item">
                 <router-link :class="route_name == 'record_index' ? 'nav-link active' : 'nav-link'" :to="{name: 'record_index'}">对局列表</router-link>
               </li>
@@ -40,8 +42,8 @@ import { computed } from 'vue';
 
 export default{
     setup(){
-        const route = useRoute();
-        let route_name = computed(() => route.name)
+        const route = useRoute();//获取当前路由对象
+        let route_name = computed(() => route.name); //动态计算
         return {
             route_name
         }
