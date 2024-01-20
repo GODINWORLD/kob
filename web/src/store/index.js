@@ -1,4 +1,5 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex' //将user放到全局
+import ModuleUser from './user' //这里随便起名
 
 export default createStore({
   state: {
@@ -10,5 +11,6 @@ export default createStore({
   actions: {
   },
   modules: {
+    user : ModuleUser,
   }
 })
