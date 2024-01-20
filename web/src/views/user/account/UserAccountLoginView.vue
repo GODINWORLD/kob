@@ -1,7 +1,7 @@
 <template>
     <!-- 直接写div.row>div.col-3，然后tab，会自动补全-->
 
-    <ContentField>
+    <ContentField v-if="! $store.state.user.pulling_info">
         <div class="row justify-content-md-center">
             <div class="col-3">
                 <form @submit.prevent="login">
@@ -37,6 +37,25 @@ export default{
         let password = ref('');
         let error_message = ref('');
 
+        //let show_content = ref(false);//一开始默认是不展示登陆界面，避免一闪
+
+        const jwt_token = localStorage.getItem("jwt_token");
+        if (jwt_token){
+            store.commit("updateToken", jwt_token);
+            store.dispatch("getinfo", { //如果可以从服务器获取信息，说明token是有效的
+                success(){
+                    router.push({name : "home"});
+                    store.commit("updatePullingInfo", false);
+                },
+                error(){
+                    store.commit("updatePullingInfo", false);
+                }
+            })
+        }
+        else {
+            store.commit("updatePullingInfo", false);
+        }
+
         const login = () => {
             error_message.value = "";
             store.dispatch("login",{
@@ -46,7 +65,6 @@ export default{
                     store.dispatch("getinfo",{
                         success(){
                             router.push({name: 'home'});//成功则自动跳到home页面
-                            console.log(store.state.user);
                         }
                     })
                 },

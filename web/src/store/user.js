@@ -1,5 +1,7 @@
 import $ from 'jquery'
 
+//存到stroe的东西就是存到内存里，一刷新就清空了
+
 export default{
     state: {
         id: "",
@@ -7,10 +9,11 @@ export default{
         photo: "",
         token: "",
         is_login: false,
+        pulling_info: true, //表示当前是不是在获取信息中，if true，不要展示登陆界面
     },
     getters: {
     },
-    mutations: {
+    mutations: {//同步操作放mutations
         updateUser(state, user){
             state.id = user.id;
             state.username = user.username;
@@ -27,7 +30,11 @@ export default{
             state.token = "";
             state.is_login = false;
         },
+        updatePullingInfo(state, pulling_info){
+            state.pulling_info = pulling_info;
+        }
     },
+    //异步操作放actions里，比如这里要从云端拉取数据才能继续
     actions: {//一般来说，修改state的函数都可以写在actions里
         login(context, data){
             $.ajax({
@@ -39,6 +46,8 @@ export default{
                 },
                 success(resp){
                     if (resp.error_message === "success"){
+                        localStorage.setItem("jwt_token", resp.token);//放到浏览器的本地内存空间
+
                         context.commit("updateToken", resp.token); //在ajax里调用mutations里的函数用commit+字符串
                         data.success(resp); //成功了要调用回调函数
                     }
@@ -74,6 +83,8 @@ export default{
             })
         },
         logout(context){
+            localStorage.removeItem("jwt_token");
+
             context.commit("logout");
         },
     },
