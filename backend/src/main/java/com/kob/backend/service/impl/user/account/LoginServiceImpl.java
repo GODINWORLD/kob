@@ -22,9 +22,11 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Map<String, String> getToken(String username, String password) {
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
+        // 生成一个包含账号密码的认证信息
+        UsernamePasswordAuthenticationToken  authenticationToken = new UsernamePasswordAuthenticationToken(username,
                 password);
 
+        // AuthenticationManager校验这个认证信息，判断是否是当前用户，返回一个已认证的Authentication
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);//登陆失败，会自动处理
 
         //如果能执行到这里，一定是成功了
@@ -35,6 +37,7 @@ public class LoginServiceImpl implements LoginService {
         Map<String, String> map = new HashMap<>();
         map.put("error_message", "success");
         map.put("token", jwt);//token名称可以随便定义，和前端对应即可
+        //jwt是令牌
 
         return map;
     }

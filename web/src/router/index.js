@@ -60,7 +60,7 @@ const routes = [
     }
   },
   {
-    path: "/user/account/register",
+    path: "/user/account/register/",
     name: "user_account_register",
     component: UserAccountRegisterView,
     meta:{
@@ -83,7 +83,7 @@ const routes = [
 
 ]
 
-const router = createRouter({
+const router = createRouter({//可以进行路由跳转
   history: createWebHistory(),
   routes
 })

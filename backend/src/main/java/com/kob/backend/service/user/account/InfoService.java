@@ -3,6 +3,5 @@ package com.kob.backend.service.user.account;
 import java.util.Map;
 
 public interface InfoService {
-    public Map<String, String> getinfo();//方法声明
-
+    Map<String, String> getinfo();//方法声明
 }

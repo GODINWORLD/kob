@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserMapper extends BaseMapper<User> {//继承后，不用写基础sql语句了
-
+    //
 }

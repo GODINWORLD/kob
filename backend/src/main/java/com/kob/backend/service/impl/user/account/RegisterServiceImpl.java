@@ -18,7 +18,7 @@ public class RegisterServiceImpl implements RegisterService {
     private UserMapper userMapper;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;//密码加密
 
     @Override
     public Map<String, String> register(String username, String password, String confirmedPassword) {
@@ -62,7 +62,7 @@ public class RegisterServiceImpl implements RegisterService {
 
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", username);
-        List<User> users = userMapper.selectList(queryWrapper);//查询用户名等于username的用户
+        List<User> users = userMapper.selectList(queryWrapper);//查询用户名等于username的用户，用selectOne也行
 
         if (!users.isEmpty()){
             map.put("error_message", "用户名已存在");
@@ -71,9 +71,9 @@ public class RegisterServiceImpl implements RegisterService {
 
         String encodedPassword = passwordEncoder.encode(password);//加密后的密码
         String photo = "https://cdn.acwing.com/media/user/profile/photo/189081_sm_04d17020bb.jpg";
-        User user = new User(null, username, encodedPassword, photo);
+        User user = new User(null, username, encodedPassword, photo);//id是自增的
 
-        userMapper.insert(user);
+        userMapper.insert(user);//记得修改数据库
         map.put("error_message", "success");
         return map;
     }

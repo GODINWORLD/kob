@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {//用来接入数据库信息，根据用户名来返回user对象
 
     @Autowired
     private UserMapper userMapper;
@@ -22,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         queryWrapper.eq("username", username);
         User user = userMapper.selectOne(queryWrapper);
         if (user == null){
-            throw new RuntimeException("用户不存在");
+            throw new RuntimeException("用户不存在");//要new一下
         }
         return new UserDetailsImpl(user);
     }

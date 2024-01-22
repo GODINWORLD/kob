@@ -16,6 +16,8 @@
             <router-link :class="route_name == 'ranklist_index' ? 'nav-link active' : 'nav-link'" :to="{name: 'ranklist_index'}">排行榜</router-link>
           </li>
         </ul>
+
+        <!-- 如果用户登陆了，显示这个页面-->
         <ul class="navbar-nav" v-if="$store.state.user.is_login">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -26,12 +28,12 @@
                   <router-link class="dropdown-item" :to="{name: 'user_bot_index'}">我的Bot</router-link>
               </li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#" @click="logout">退出</a></li>
+              <li><a class="dropdown-item"  @click="logout">退出</a></li>
             </ul>
           </li>
         </ul>
 
-
+        <!-- 如果不是正在拉取信息，显示这个页面-->
         <ul class="navbar-nav" v-else-if="! $store.state.user.pulling_info">
           <li class="nav-item">
             <router-link class="nav-link" :to="{name: 'user_account_login' }" role="button">

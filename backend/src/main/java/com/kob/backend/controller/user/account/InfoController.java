@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+//根据令牌返回用户信息
 @RestController
 public class InfoController {
     @Autowired

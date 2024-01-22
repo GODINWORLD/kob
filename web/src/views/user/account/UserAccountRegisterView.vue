@@ -41,7 +41,8 @@ export default{
         let error_message = ref('');
         
         //变量不会重新赋值用const
-        //这个ajax不放到store里，是因为 有可能修改state的值时，才放到那里，而注册不会修改任何值
+        //这个ajax不放到store里，是因为 有可能修改state的值时，才放到那里，而注册不会修改state的任何值
+        //注册完后 要登陆才更新state的值
         const register = () => {
             $.ajax({
                 url: "http://127.0.0.1:3000/user/account/register/",
@@ -56,7 +57,7 @@ export default{
 
                 success(resp){
                     if (resp.error_message === "success"){
-                        router.push({name: "user_account_login"});
+                        router.push({name: "user_account_login"});//让用户去登陆
                     }else{
                         error_message.value = resp.error_message;
                     }

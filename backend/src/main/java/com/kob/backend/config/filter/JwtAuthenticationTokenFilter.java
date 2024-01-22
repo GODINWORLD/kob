@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//用来验证jwt token，如果验证成功，则将User信息注入上下文中
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
@@ -26,7 +27,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader("Authorization");//可以理解为Authorization为键，后面的是值
 
         if (!StringUtils.hasText(token) || !token.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -49,10 +50,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             throw new RuntimeException("用户名未登录");
         }
 
+        //保存当前登陆对象
         UserDetailsImpl loginUser = new UserDetailsImpl(user);
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginUser, null, null);
 
+        // 将返回的Authentication存到上下文中
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         filterChain.doFilter(request, response);

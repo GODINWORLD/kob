@@ -6,12 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor //看target那里可以知道，自动生成getter,setter,等方法
+@Data  //看target那里可以知道，自动生成 getter,setter,tostring等方法
+@NoArgsConstructor //无参构造函数
+@AllArgsConstructor //全参构造函数
 public class User {
     @TableId(type = IdType.AUTO) //id自增
-    private Integer id;
+    private Integer id; //用包装类
     private String username;
     private String password;
     private String photo;

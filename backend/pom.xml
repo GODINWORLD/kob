@@ -61,6 +61,7 @@
         </dependency>
 
         <!-- 这两个mybatis-plus都用3.5版本，要不然一个3.5，一个3.4会报错-->
+        <!-- mybatis-plus 帮我们写好了很多sql语句，不需要自己再手动去写-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -75,6 +76,7 @@
         </dependency>
 
 
+        <!-- Lombok帮我们简化代码，可以自动写getter,setter等 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
