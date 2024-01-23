@@ -22,8 +22,8 @@ public class Bot {
     private String content; //bot的代码
     private Integer rating; //积分
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")//定义成特定格式
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")//定义成特定格式，东八区写上海即可
     private Date createtime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")//定义成特定格式
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")//定义成特定格式
     private Date modifytime;
 }
