@@ -10,7 +10,7 @@
 <script>
 import {GameMap} from '@/assets/scripts/GameMap';
 import { ref, onMounted } from 'vue';
-
+import { useStore } from 'vuex';
 //在setup函数中使用ref函数创建了一个响应式对象，那么在组件的template部分
 //就可以通过ref="parent"将该响应式对象与相应的 HTML 元素或组件关联起来。
 
@@ -18,11 +18,12 @@ import { ref, onMounted } from 'vue';
 
 export default{
     setup(){
+        const store = useStore();
         let parent = ref(null);
         let canvas = ref(null);
 
         onMounted(() => {//如果不使用 onMounted()，那么就无法保证回调函数在组件挂载完成后才被执行。
-            new GameMap(canvas.value.getContext('2d'), parent.value);//用来获取 <canvas> 元素的 2D 渲染上下文对象的方法。
+            new GameMap(canvas.value.getContext('2d'), parent.value, store);//用来获取 <canvas> 元素的 2D 渲染上下文对象的方法。
         });
 
         return{

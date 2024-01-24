@@ -1,4 +1,4 @@
-<!-- 指的是包裹地图的外部区域-->
+<!-- 指的是包裹地图的外部区域，对战页面-->
 <template>
     <div class="playground">
         <GameMap />
