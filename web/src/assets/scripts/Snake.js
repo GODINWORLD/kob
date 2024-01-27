@@ -72,9 +72,9 @@ export class Snake extends AcGameObject{
         }
         //这时cells[0]和cell[1]是在同一个位置的，等下移动时，cell[0]动
 
-        if (!this.gamemap.check_valid(this.next_cell)){ //下一步操作撞了，蛇瞬间去世
-            this.status = "die";
-        } 
+        // if (!this.gamemap.check_valid(this.next_cell)){ //下一步操作撞了，蛇瞬间去世
+        //     this.status = "die";
+        // } 
     }
 
     update_move(){

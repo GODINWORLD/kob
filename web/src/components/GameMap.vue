@@ -23,7 +23,10 @@ export default{
         let canvas = ref(null);
 
         onMounted(() => {//如果不使用 onMounted()，那么就无法保证回调函数在组件挂载完成后才被执行。
-            new GameMap(canvas.value.getContext('2d'), parent.value, store);//用来获取 <canvas> 元素的 2D 渲染上下文对象的方法。
+            store.commit("updateGameObject",
+                new GameMap(canvas.value.getContext('2d'), parent.value, store)
+                //用来获取 <canvas> 元素的 2D 渲染上下文对象的方法。
+            );
         });
 
         return{
