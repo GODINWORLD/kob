@@ -21,6 +21,8 @@ export default{
         const store = useStore();
         const socketUrl = `ws://127.0.0.1:3000/websocket/${store.state.user.token}/`;//注意url
 
+        store.commit("updateLoser", "none");
+
         let socket = null;
         onMounted(() => { //当前组件被挂载完成后，可以认为是页面打开后
 
@@ -42,9 +44,12 @@ export default{
                         username: data.opponent_username,
                         photo: data.opponent_photo,
                     });
+
+                    // 如果后端发送消息的速度非常快，可能会导致 setTimeout 还未执行完毕就接收到了新的消息，
+                    // 从而在处理新消息时访问到未赋值的 gameObject，导致空指针错误。
                     setTimeout(() => {//延迟一秒
                         store.commit("updateStatus", "playing");//status转换后，某些页面可以展示出来
-                    }, 1000);
+                    }, 200);
                     store.commit("updateGame", data.game);
 
                 } else if (data.event === "move") { //后端叫前端动， 才能动

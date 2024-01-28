@@ -5,6 +5,7 @@
     <modules>
         <module>matchingsystem</module>
         <module>backend</module>
+        <module>botrunningsystem</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -18,7 +19,7 @@
     <name>backendcloud</name>
     <description>backendcloud</description>
 
-    <packaging>pom</packaging>
+    <packaging>pom</packaging> <!--自己加的 -->
 
 
     <properties>

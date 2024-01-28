@@ -17,8 +17,10 @@ public class StartGameController {
     @PostMapping("/pk/start/game/") //给匹配系统映射，当匹配系统匹配好两个玩家时，会通过RestTemplate 调用这个方法的
     public String startGame(@RequestParam MultiValueMap<String, String> data){
         Integer aId = Integer.parseInt(Objects.requireNonNull(data.getFirst("a_id")));
+        Integer aBotId = Integer.parseInt(Objects.requireNonNull(data.getFirst("a_bot_id")));
         Integer bId = Integer.parseInt(Objects.requireNonNull(data.getFirst("b_id")));
-        return startGameService.startGame(aId, bId);
+        Integer bBotId = Integer.parseInt(Objects.requireNonNull(data.getFirst("b_bot_id")));
+        return startGameService.startGame(aId, aBotId, bId, bBotId);
     }
 
 }
