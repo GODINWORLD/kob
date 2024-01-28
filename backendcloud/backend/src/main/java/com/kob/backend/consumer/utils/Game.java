@@ -16,7 +16,7 @@ public class Game extends Thread{
     private final Integer rows;
     private final Integer cols;
     private final Integer inner_walls_count;
-    private final int[][] g;//意味着一旦被赋值后，其引用不可再更改
+    private final int[][] g;//意味着一旦被赋值后，其引用不可再更改， g是地图
     private final static int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
     private final Player playerA, playerB;//a在左下角，b在右下角
     private Integer nextStepA = null;//玩家的下一步操作
@@ -30,7 +30,7 @@ public class Game extends Thread{
         this.cols = cols;
         this.inner_walls_count = inner_walls_count;
         this.g = new int[rows][cols];
-        playerA = new Player(idA, rows - 2, 1, new ArrayList<>());
+        playerA = new Player(idA, rows - 2, 1, new ArrayList<>());//左下角，数组坐标系
         playerB = new Player(idB, 1, cols - 2, new ArrayList<>());
     }
 
@@ -45,7 +45,7 @@ public class Game extends Thread{
         lock.lock();
         try {
             this.nextStepA = nextStepA;
-        } finally {
+        } finally { //无论如何，最后都要解锁，否则会死锁
             lock.unlock();
         }
     }
@@ -65,7 +65,7 @@ public class Game extends Thread{
 
     private boolean check_connectivity(int sx, int sy, int tx, int ty){
         if(sx == tx && sy == ty) return true;
-        g[sx][sy] = 1;
+        g[sx][sy] = 1; //能来到这里说明g[sx][sy]一定是0
 
         for(int i = 0; i < 4; i ++){
             int x = sx + dx[i], y = sy + dy[i];
@@ -76,7 +76,7 @@ public class Game extends Thread{
                 }
         }
 
-        g[sx][sy] = 0;
+        g[sx][sy] = 0; //回溯
         return false;
     }
 
@@ -185,9 +185,9 @@ public class Game extends Thread{
         }
     }
 
-    private void sendAllMessage(String message){
+    private void sendAllMessage(String message){ //给前端发消息
         if (WebSocketServer.users.get(playerA.getId()) != null)
-            WebSocketServer.users.get(playerA.getId()).sendMessage(message);
+            WebSocketServer.users.get(playerA.getId()).sendMessage(message);//对应的websocketserver的方法
         if (WebSocketServer.users.get(playerB.getId()) != null)
             WebSocketServer.users.get(playerB.getId()).sendMessage(message);
     }
@@ -256,7 +256,7 @@ public class Game extends Thread{
                     sendMove();
                 } else {
                     sendResult();
-                    break;
+                    break;//发完结果后，此线程结束
                 }
             } else {
                 status = "finished";

@@ -50,11 +50,11 @@ export class Snake extends AcGameObject{
         this.direction = d;
     }
 
-    check_tail_increasing(){ //检测当前回合，蛇的长度是否增加
-        if(this.step <= 10) return true;//规则是前10个回合，每个回合长度加一，即蛇头动，蛇尾不动。
-        if(this.step % 3 === 1) return true;//后面是每三个回合长度才加一
-        return false;
-    }
+    // check_tail_increasing(){ //检测当前回合，蛇的长度是否增加
+    //     if(this.step <= 10) return true;//规则是前10个回合，每个回合长度加一，即蛇头动，蛇尾不动。
+    //     if(this.step % 3 === 1) return true;//后面是每三个回合长度才加一
+    //     return false;
+    // }
 
     next_step(){//将蛇的状态变为走下一步
         const d = this.direction;
@@ -73,7 +73,7 @@ export class Snake extends AcGameObject{
         //这时cells[0]和cell[1]是在同一个位置的，等下移动时，cell[0]动
 
         // if (!this.gamemap.check_valid(this.next_cell)){ //下一步操作撞了，蛇瞬间去世
-        //     this.status = "die";
+        //     this.status = "die"; //这一步的判断逻辑交给后端
         // } 
     }
 

@@ -107,7 +107,7 @@ public class MatchingPool extends Thread{
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                break;
+                break; //匹配系统出问题，那就报异常
             }
         }
     }

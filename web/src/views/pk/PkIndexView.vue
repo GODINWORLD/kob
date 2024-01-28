@@ -29,26 +29,27 @@ export default{
                 photo: "https://cdn.acwing.com/media/article/image/2022/08/09/1_1db2488f17-anonymous.png",
             });
 
-            socket = new WebSocket(socketUrl);
+            socket = new WebSocket(socketUrl);//vue3自带的WebSocket
 
             socket.onopen = () => {
                 console.log("connected");
                 store.commit("updateSocket", socket);
             }
             socket.onmessage = msg => {
-                const data = JSON.parse(msg.data);
+                const data = JSON.parse(msg.data); //将一个 JSON 格式的字符串解析为 JavaScript 对象
                 if (data.event === "start-matching"){  //匹配成功
                     store.commit("updateOpponent", {
                         username: data.opponent_username,
                         photo: data.opponent_photo,
                     });
-                    setTimeout(() => {
-                        store.commit("updateStatus", "playing");
+                    setTimeout(() => {//延迟一秒
+                        store.commit("updateStatus", "playing");//status转换后，某些页面可以展示出来
                     }, 1000);
                     store.commit("updateGame", data.game);
-                } else if (data.event === "move") {
+
+                } else if (data.event === "move") { //后端叫前端动， 才能动
                     console.log(data);
-                    const game = store.state.pk.gameObject;
+                    const game = store.state.pk.gameObject;//这个game是前端的地图对象
                     const [snake0, snake1] = game.snakes;
                     snake0.set_direction(data.a_direction);
                     snake1.set_direction(data.b_direction); 

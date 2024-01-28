@@ -45,8 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {//用来实现
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
+    //匹配以 /websocket/ 开头的所有请求路径。这意味着对于这些路径的请求，Spring Security 将不会进行身份验证和授权检查，直接放行。
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) throws Exception { //放行
         web.ignoring().antMatchers("/websocket/**");
     }
 }

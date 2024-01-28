@@ -13,7 +13,7 @@ export default{//谁先点匹配，谁是左下角的蛇
         b_id: 0,
         b_sx: 0,
         b_sy: 0,
-        gameObject: null,
+        gameObject: null, //GameMap.js的一个实例，里面有snakes等
         loser: "none", // none,all, A, B
     },
     getters: {

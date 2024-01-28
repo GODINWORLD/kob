@@ -22,7 +22,7 @@ public class Player {
         return false;
     }
 
-    public List<Cell> getCells(){
+    public List<Cell> getCells(){//由于蛇并不大，可以枚举算出蛇的每部分身体
         List<Cell> res = new ArrayList<>();
 
         int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};

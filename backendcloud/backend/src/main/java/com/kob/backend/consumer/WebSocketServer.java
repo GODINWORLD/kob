@@ -21,16 +21,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @Component
-@ServerEndpoint("/websocket/{token}")  // 注意不要以'/'结尾，也是用jwt验证
+@ServerEndpoint("/websocket/{token}")  // 注意不要以'/'结尾，也是用jwt验证(token放在链接里）
 public class WebSocketServer {
 
-    /*
-        存储所有连接,由于websocket实例在线程里运行，所以这个公共变量要是线程安全的
+    /**
+     *   存储所有连接,由于websocket实例在线程里运行，所以这个公共变量要是线程安全的
+    *    虽然@Component默认是单例模式的，但springboot还是会为每个websocket连接初始化一个bean，所以可以用一个静态map保存起来。
     */
-    final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
+    public final static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
 
     private User user;//保存每个连接对应的是谁
-    private Session session = null;//每个连接用session来维护
+    private Session session = null;//每个连接用session来维护，需要通过它来给客户端发送数据
 
     private static UserMapper userMapper;
     public static RecordMapper recordMapper;
@@ -58,7 +59,7 @@ public class WebSocketServer {
         // 建立连接
         this.session = session;
         System.out.println("connected");
-        Integer userId = JwtAuthentication.getUserId(token);
+        Integer userId = JwtAuthentication.getUserId(token);//静态方法
         this.user = userMapper.selectById(userId);
         if (this.user != null) {
             users.put(userId, this);
@@ -70,19 +71,19 @@ public class WebSocketServer {
     //连接关闭，自动调用
     @OnClose
     public void onClose() {//如果突然断网，可能无法收到断开连接的消息
-        // 关闭链接
+        // 关闭链接，普通的关闭页面可以触发这个函数
         System.out.println("disconnected");
         if (this.user != null) {
             users.remove(this.user.getId());
         }
     }
 
-    public static void startGame(Integer aId, Integer bId){
+    public static void startGame(Integer aId, Integer bId){//被 StartGameServiceImpl调用
         User a = userMapper.selectById(aId), b = userMapper.selectById(bId);
 
         Game game = new Game(13, 14,  20, a.getId(), b.getId());
         game.createMap();
-        if (users.get(a.getId()) != null)
+        if (users.get(a.getId()) != null)//如果一个人走了，可能会为null
             users.get(a.getId()).game = game;
         if (users.get(b.getId()) != null)
             users.get(b.getId()).game = game;
@@ -121,7 +122,7 @@ public class WebSocketServer {
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("user_id", this.user.getId().toString());
         data.add("rating", this.user.getRating().toString());
-        restTemplate.postForObject(addPlayerUrl, data, String.class);
+        restTemplate.postForObject(addPlayerUrl, data, String.class);//String.class 是期望的响应类型。
     }
 
     private void stopMatching(){
@@ -132,7 +133,7 @@ public class WebSocketServer {
         restTemplate.postForObject(removePlayerUrl, data, String.class);
     }
 
-    private void move(int direction){
+    private void move(int direction){ //接收前端的东西
         if (game.getPlayerA().getId().equals(user.getId())){
             System.out.println("A 方向 " + direction);
             game.setNextStepA(direction);

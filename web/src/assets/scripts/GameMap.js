@@ -28,7 +28,7 @@ export class GameMap extends AcGameObject{
     }
 
     create_walls(){ //创建障碍物
-        const g = this.store.state.pk.gamemap;
+        const g = this.store.state.pk.gamemap;//使用后端返回的地图
 
         for(let r = 0; r < this.rows; r ++){
             for(let c = 0; c < this.cols; c ++){
@@ -44,8 +44,6 @@ export class GameMap extends AcGameObject{
     add_listening_events(){ //对键盘进行监听
         this.ctx.canvas.focus();//聚焦
 
-        //const [snake0, snake1] = this.snakes;//引用，修改也生效
-
         this.ctx.canvas.addEventListener("keydown", e => {
             let d = -1;
             if(e.key === 'w') d = 0;
@@ -54,7 +52,7 @@ export class GameMap extends AcGameObject{
             else if(e.key === 'a') d = 3;
 
             if (d >= 0){
-                this.store.state.pk.socket.send(JSON.stringify({
+                this.store.state.pk.socket.send(JSON.stringify({//给后端发消息，蛇动了，但是前端先不渲染画面
                     event: "move",
                     direction: d,
                 }));
@@ -89,29 +87,29 @@ export class GameMap extends AcGameObject{
         }
     }
 
-    check_valid(cell){ // 检测目标位置是否合法：即没有撞到两条蛇的身体和障碍物
-        for (const wall of this.walls){//先判断障碍物
-            if(wall.r === cell.r && wall.c === cell.c){
-                return false;
-            }
-        }
+    // check_valid(cell){ // 检测目标位置是否合法：即没有撞到两条蛇的身体和障碍物
+    //     for (const wall of this.walls){//先判断障碍物
+    //         if(wall.r === cell.r && wall.c === cell.c){
+    //             return false;
+    //         }
+    //     }
 
-        for (const snake of this.snakes){
-            let k = snake.cells.length;
-            if (!snake.check_tail_increasing()){ //当蛇尾会前进的时候，蛇尾不要判断
-                k --;//check_valid方法是在next_step方法调用的，这时还没有pop蛇尾
-            }
-            //由于定义了蛇头不会同时进入同一个格子，所以可以用以下方法判断一个蛇头将要碰到任何一个蛇身都会die
-            //往回走也会die
-            for (let i = 0; i < k; i ++){
-                if (snake.cells[i].r === cell.r && snake.cells[i].c === cell.c){
-                    return false;
-                }
-            }
-        }
+    //     for (const snake of this.snakes){
+    //         let k = snake.cells.length;
+    //         if (!snake.check_tail_increasing()){ //当蛇尾会前进的时候，蛇尾不要判断
+    //             k --;//check_valid方法是在next_step方法调用的，这时还没有pop蛇尾
+    //         }
+    //         //由于定义了蛇头不会同时进入同一个格子，所以可以用以下方法判断一个蛇头将要碰到任何一个蛇身都会die
+    //         //往回走也会die
+    //         for (let i = 0; i < k; i ++){
+    //             if (snake.cells[i].r === cell.r && snake.cells[i].c === cell.c){
+    //                 return false;
+    //             }
+    //         }
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
     update(){
         this.update_size();
