@@ -135,7 +135,7 @@ export default{
                     store.commit("updateIsRecord", true);
 
                     console.log(record);
-                    store.commit("updateGame", {
+                    store.commit("updateGame", { //更新地图信息
                         map: stringTo2D(record.record.map),
                         a_id: record.record.aid,  //注意通过前端看json格式的数据，
                         a_sx: record.record.asx, //都是小写
@@ -154,7 +154,7 @@ export default{
                         name: "record_content",
                         params: {
                             // recordId: recordId   //如果key和value一样的话，写一个即可
-                            recordId
+                            recordId //这个id好像没啥用，只是在url上显示而已
                         }
                     });
                     break;

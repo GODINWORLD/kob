@@ -272,7 +272,7 @@ public class Game extends Thread{
         Integer ratingA = WebSocketServer.userMapper.selectById(playerA.getId()).getRating();
         Integer ratingB = WebSocketServer.userMapper.selectById(playerB.getId()).getRating();
 
-        if ("A".equals(loser)) {
+        if ("A".equals(loser)) { //赢了加5分，输了减2分
             ratingA -= 2;
             ratingB += 5;
         } else if ("B".equals(loser)) {
