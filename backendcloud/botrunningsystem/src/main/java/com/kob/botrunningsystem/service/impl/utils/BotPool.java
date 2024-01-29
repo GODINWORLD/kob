@@ -15,6 +15,7 @@ public class BotPool extends Thread{
         try {
             bots.add(new Bot(userId, botCode, input));
             condition.signalAll();//被唤醒的进程在阻塞处继续执行
+            //这两个要放在一起，因为bot添加成功后才能唤醒线程
         } finally {
             lock.unlock();
         }

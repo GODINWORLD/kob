@@ -50,7 +50,7 @@ public class Consumer extends Thread{//执行bot代码
                     addUid(bot.getBotCode(), uid)
         ).create().get();
 
-        Integer direction = botInterface.nextMove(bot.getInput());
+        Integer direction = botInterface.nextMove(bot.getInput()); //代码实现了这个接口，因此对bot代码编译后，可以调用nextMove方法
 
         System.out.println("move: " + bot.getUserId() + " " + direction);
 

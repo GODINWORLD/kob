@@ -149,7 +149,7 @@ public class Game extends Thread{
         }
 
         return getMapString() + "#" + me.getSx() + "#" + me.getSy() + "#(" + me.getStepsString() + ")#" +
-                you.getSx() + "#" + you.getSy() + "#(" + you.getStepsString() + ")";
+                you.getSx() + "#" + you.getSy() + "#(" + you.getStepsString() + ")";//注意有括号
     }
 
     private void sendBotCode(Player player){ //决定要不要发送代码给botrunningsystem
@@ -160,7 +160,7 @@ public class Game extends Thread{
         data.add("bot_code", player.getBotCode());
         data.add("input", getInput(player));
 
-        WebSocketServer.restTemplate.postForObject(addBotUrl, data, String.class);
+        WebSocketServer.restTemplate.postForObject(addBotUrl, data, String.class);//发送给botRunningSystem
     }
 
     private boolean nextStep(){ //等待两名玩家的下一步操作，注意不要和前面的lock造成死锁
