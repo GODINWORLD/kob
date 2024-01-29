@@ -1,6 +1,7 @@
 import { createStore } from 'vuex' //将user放到全局
 import ModuleUser from './user' //这里随便起名
-import ModulPk from  './pk'
+import ModulePk from  './pk'
+import ModuleRecord from './record'
 
 export default createStore({
   state: {
@@ -18,7 +19,8 @@ export default createStore({
   modules: {
     user : ModuleUser,
     //这里是我自己理解的是为了给全局变量 #分组#，所以需要写提前声明其他store文件，然后引入这里
-    pk: ModulPk,
+    pk: ModulePk,
+    record: ModuleRecord,
     
   }
 })

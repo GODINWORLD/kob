@@ -22,6 +22,7 @@ export default{
         const socketUrl = `ws://127.0.0.1:3000/websocket/${store.state.user.token}/`;//注意url
 
         store.commit("updateLoser", "none");
+        store.commit("updateIsRecord", false); //不是录像
 
         let socket = null;
         onMounted(() => { //当前组件被挂载完成后，可以认为是页面打开后

@@ -29,6 +29,7 @@ export class GameMap extends AcGameObject{
 
     create_walls(){ //创建障碍物
         const g = this.store.state.pk.gamemap;//使用后端返回的地图
+        //数组赋值是引用赋值，所以g改变元素的值，会影响gamemap
 
         for(let r = 0; r < this.rows; r ++){
             for(let c = 0; c < this.cols; c ++){
@@ -42,22 +43,48 @@ export class GameMap extends AcGameObject{
     }
 
     add_listening_events(){ //对键盘进行监听
-        this.ctx.canvas.focus();//聚焦
+        if (this.store.state.record.is_record){
+            let k = 0;
+            const a_steps = this.store.state.record.a_steps;
+            const b_steps = this.store.state.record.b_steps;
+            const loser = this.store.state.record.record_loser;
+            const [snake0, snake1] = this.snakes;
 
-        this.ctx.canvas.addEventListener("keydown", e => {
-            let d = -1;
-            if(e.key === 'w') d = 0;
-            else if(e.key === 'd') d = 1;
-            else if(e.key === 's') d = 2;
-            else if(e.key === 'a') d = 3;
+            const interval_id = setInterval( () => {
 
-            if (d >= 0){
-                this.store.state.pk.socket.send(JSON.stringify({//给后端发消息，蛇动了，但是前端先不渲染画面
-                    event: "move",
-                    direction: d,
-                }));
-            }
-        })
+                //yxc说最后一步是撞墙，但是如果某个人是因为不输入而输的，那么最后一步应该是合法的
+                if (k >= a_steps.length - 1) { 
+                    if (loser ===  "all" || loser === "A"){
+                        snake0.status = "die";
+                    }
+                    if (loser ===  "all" || loser === "B"){
+                        snake1.status = "die";
+                    }
+                    clearInterval(interval_id);
+                } else {
+                    snake0.set_direction(parseInt(a_steps[k]));
+                    snake1.set_direction(parseInt(b_steps[k]));
+                }
+                k ++;
+            }, 300);
+        } else {
+            this.ctx.canvas.focus();//聚焦
+
+            this.ctx.canvas.addEventListener("keydown", e => {
+                let d = -1;
+                if(e.key === 'w') d = 0;
+                else if(e.key === 'd') d = 1;
+                else if(e.key === 's') d = 2;
+                else if(e.key === 'a') d = 3;
+    
+                if (d >= 0){
+                    this.store.state.pk.socket.send(JSON.stringify({//给后端发消息，蛇动了，但是前端先不渲染画面
+                        event: "move",
+                        direction: d,
+                    }));
+                }
+            })
+        } 
     }
 
     start(){
